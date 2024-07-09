@@ -11,6 +11,11 @@ pipeline{
             sh 'npm test'
         }
     }
+        post {
+            always {
+                // cleanup steps, if any
+            }
+        }
     }
 }
 
