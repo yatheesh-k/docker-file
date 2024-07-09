@@ -11,6 +11,11 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        stage('start') {
+            steps {
+                sh 'npm start'
+            }
+        }
     }
     post {
         always {
