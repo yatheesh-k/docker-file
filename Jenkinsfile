@@ -1,14 +1,15 @@
-pipeline{
+pipeline {
     agent any
-    stages{
+    stages {
         stage('Build') {
             steps {
                 sh 'npm install'
             }
         }
         stage('test') {
-        steps { 
-            sh 'npm test'
+            steps { 
+                sh 'npm test'
+            }
         }
     }
     post {
@@ -16,16 +17,11 @@ pipeline{
             // cleanup steps, if any
             sh 'echo "Always do cleanup actions here"'
         }
-        success{
+        success {
             sh 'echo "Pipeline succeeded"'
         }
         failure {
             sh 'echo "pipeline failed"'
         }
-        
-            }
-        }
     }
-
-
-            
+}
