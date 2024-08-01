@@ -24,10 +24,9 @@ pipeline
             stage('install dependencies'){
                 steps
                 {
-		script{
 		    nodejs(NODE_VERSION)
                     sh 'npm install'
-                }
+              
 		}
             }
             stage('Build') {
