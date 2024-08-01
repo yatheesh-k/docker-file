@@ -8,11 +8,12 @@ pipeline
             nodejs 'nodejs12'
         }
         environment {
+	NODE_VERSION = 'nodejs12' 
         SNAP_REPO = 'arzoo01-snapshot'
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'priya'
         RELEASE_REPO = 'arzoo01-release'
-        NEXUS_IP ='52.202.179.222'
+        NEXUS_IP = '54.166.207.7'
         NEXUS_PORT = '8081'
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
@@ -20,6 +21,12 @@ pipeline
     }
 
         stages{
+             stage('Setup') {
+                steps {
+                    sh 'nvm install $NODE_VERSION'
+                    sh 'nvm use $NODE_VERSION'
+                      }
+              }
             stage('install dependencies'){
                 steps
                 {
@@ -71,7 +78,7 @@ pipeline
                     {
                     sh '''curl -v -u admin:priya\
                         --upload-file build/arzoo01 \
-                        http://52.202.179.222/arzoo01/'''                   
+                        http://54.166.207.7/arzoo01/'''                   
                    }
             }
              
