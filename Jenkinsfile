@@ -21,17 +21,14 @@ pipeline
     }
 
         stages{
-             stage('Setup') {
-                steps {
-                    sh 'nvm install $NODE_VERSION'
-                    sh 'nvm use $NODE_VERSION'
-                      }
-              }
             stage('install dependencies'){
                 steps
                 {
+		script{
+		    nodejs(NODE_VERSION)
                     sh 'npm install'
                 }
+		}
             }
             stage('Build') {
                   steps
