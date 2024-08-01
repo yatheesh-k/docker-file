@@ -24,8 +24,7 @@ pipeline
             stage('install dependencies'){
                 steps
                 {
-		    nodejs(NODE_VERSION)
-                    sh 'npm install'
+		    sh 'npm install'
               
 		}
             }
@@ -44,7 +43,7 @@ pipeline
            stage('SonarQube Analysis') {
                   steps
                    {
-                      withSonarQubeEnv(sonarserver) {
+                      withSonarQubeEnv(SONARSERVER) {
                       sh 'npm run sonar'
                     }
                 }
@@ -74,7 +73,7 @@ pipeline
                     {
                     sh '''curl -v -u admin:priya\
                         --upload-file build/arzoo01 \
-                        http://54.166.207.7/arzoo01/'''                   
+                        http://54.166.207.7:8081/arzoo01/'''                   
                    }
             }
              
