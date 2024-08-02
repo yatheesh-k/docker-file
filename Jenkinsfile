@@ -12,7 +12,7 @@ pipeline
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'priya'
         RELEASE_REPO = 'arzoo01-release'
-        NEXUS_IP ='52.202.179.222'
+        NEXUS_IP ='54.147.90.100'
         NEXUS_PORT = '8081'
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
@@ -41,7 +41,7 @@ pipeline
            stage('SonarQube Analysis') {
                   steps
                    {
-                      withSonarQubeEnv(sonarserver) {
+                      withSonarQubeEnv(SONARSERVER) {
                       sh 'npm run sonar'
                     }
                 }
@@ -69,9 +69,9 @@ pipeline
             stage('Publish to Nexus') {
                   steps 
                     {
-                    sh '''curl -v -u admin:priya\
+                    sh """curl -v -u admin:priya\
                         --upload-file build/arzoo01 \
-                        http://52.202.179.222/arzoo01/'''                   
+                        http://54.147.90.100:8081/arzoo01/"""         
                    }
             }
              
