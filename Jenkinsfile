@@ -8,11 +8,16 @@ pipeline
             nodejs 'nodejs12'
         }
         environment {
+	NODE_VERSION = 'nodejs12' 
         SNAP_REPO = 'arzoo01-snapshot'
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'priya'
         RELEASE_REPO = 'arzoo01-release'
+<<<<<<< HEAD
         NEXUS_IP ='54.147.90.100'
+=======
+        NEXUS_IP = '54.166.207.7'
+>>>>>>> c292c081624879cef08aaabf6f258e1eee025b22
         NEXUS_PORT = '8081'
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
@@ -23,8 +28,9 @@ pipeline
             stage('install dependencies'){
                 steps
                 {
-                    sh 'npm install'
-                }
+		    sh 'npm install'
+              
+		}
             }
             stage('Build') {
                   steps
@@ -71,7 +77,11 @@ pipeline
                     {
                     sh """curl -v -u admin:priya\
                         --upload-file build/arzoo01 \
+<<<<<<< HEAD
                         http://54.147.90.100:8081/arzoo01/"""         
+=======
+                        http://54.166.207.7:8081/arzoo01/'''                   
+>>>>>>> c292c081624879cef08aaabf6f258e1eee025b22
                    }
             }
              
