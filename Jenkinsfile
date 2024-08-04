@@ -8,7 +8,7 @@ pipeline {
         // Replace these with your actual Jenkins credentials IDs
         NEXUS_USER = credentials('admin')
         NEXUS_PASS = credentials('priya')
-        NEXUS_IP = '54.172.93.227'
+        NEXUS_IP = '204.236.255.99'
         NEXUS_PORT = '8081'
         RELEASE_REPO = 'arzoo01-release'
         SONARSERVER = 'sonartoken'
