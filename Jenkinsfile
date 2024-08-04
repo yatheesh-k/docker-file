@@ -15,7 +15,7 @@ pipeline {
         CONTAINER_URL = 'http://localhost:8080/manager/text'  // Container URL
         CONTAINER_CREDENTIALS_ID = 'tomcat_credential_id'  // Jenkins credentials ID for the container
     }
-    }
+    
 
     stages {
         stage('Install Dependencies') {
