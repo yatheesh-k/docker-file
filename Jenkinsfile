@@ -24,16 +24,19 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'npm run build'
+                node{
+                    sh 'npm run build'
+                }
             }
         }
-        stage('Run Tests') {
+        stage('Test') {
             steps {
-	        
-               node {
-                    echo 'Running test steps'
+                node
+		{
                     junit '**/test-results/*.xml'
                 }
+            }
+        }
             	    }
         }
         stage('SonarQube Analysis') {
