@@ -30,8 +30,11 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+	          node
+		  {
+                junit 'test-results/*.xml'
             }
+	    }
         }
         stage('SonarQube Analysis') {
             steps {
@@ -79,8 +82,11 @@ pipeline {
     }
     post {
         always {
+	     node
+	     {
             junit '**/test-results/*.xml'
         }
+	}
         success {
             echo 'Pipeline succeeded!'
         }
