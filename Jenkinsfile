@@ -1,101 +1,92 @@
-pipeline
-{
+pipeline {
     agent any
-    tools
-        {
-
-            maven 'maven3'           
-            nodejs 'nodejs12'
-        }
-        environment {
-	NODE_VERSION = 'nodejs12' 
-        SNAP_REPO = 'arzoo01-snapshot'
-        NEXUS_USER = 'admin'
-        NEXUS_PASS = 'priya'
-        RELEASE_REPO = 'arzoo01-release'
-        NEXUS_IP ='54.147.90.100'
+    tools {
+    
+        nodejs 'nodejs12'
+    }
+    environment {
+        // Replace these with your actual Jenkins credentials IDs
+        NEXUS_USER = credentials('admin')
+        NEXUS_PASS = credentials('priya')
+        NEXUS_IP = '54.172.93.227'
         NEXUS_PORT = '8081'
-        NEXUS_LOGIN = 'nexuslogin'
-        SONARSERVER = 'sonarserver'
-        SONARSCANNER = 'scanner'
+        RELEASE_REPO = 'arzoo01-release'
+        SONARSERVER = 'sonartoken'
+        CONTAINER_URL = 'http://localhost:8080/manager/text'  // Container URL
+        CONTAINER_CREDENTIALS_ID = 'tomcat_credential_id'  // Jenkins credentials ID for the container
+    }
     }
 
-        stages{
-            stage('install dependencies'){
-                steps
-                {
-		    sh 'npm install'
-              
-		}
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
             }
-            stage('Build') {
-                  steps
-                   {
-                   sh 'npm run build'
-                   }
+        }
+        stage('Build') {
+            steps {
+                sh 'npm run build'
             }
-            stage('Run Tests') {
-                  steps
-                   {
-                     sh 'npm test'
-                   }
+        }
+        stage('Run Tests') {
+            steps {
+                sh 'npm test'
             }
-           stage('SonarQube Analysis') {
-                  steps
-                   {
-                      withSonarQubeEnv(SONARSERVER) {
-                      sh 'npm run sonar'
-                    }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv(SONARSERVER) {
+                    sh 'npm run sonar'
                 }
             }
-            stage ("Quality Gate") {
-                steps 
-                    {
-                       timeout(time:5, unit: 'MINUTES') {
-                       waitForQualityGate abortPipeline: true
-                       }
-                    }  
-            }
-            stage('Archive Artifacts') {
-                  steps
-                   {
-                   archiveArtifacts artifacts: 'build/**', allowEmptyArchive: true
-                   }
-            }
-            stage('Deploy') {
-                 steps
-                 {
-                    echo 'Deploying application...'
-                 }
-            }
-            stage('Publish to Nexus') {
-                  steps 
-                    {
-                    sh """curl -v -u admin:priya\
-                        --upload-file build/arzoo01 \
-                        http://54.147.90.100:8081/arzoo01/"""         
-                   }
-            }
-             
-            stage('Clean Up') {
-                 steps
-                  {
-                    sh 'rm -rf build/'
-                  }
-            }
-            
         }
-        post {
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'build/**', allowEmptyArchive: true
+            }
+        }
+        
+        
+        stage('Publish to Nexus') {
+            steps {
+                sh """curl -v -u ${NEXUS_USER}:${NEXUS_PASS} \
+                    --upload-file build/arzoo01 \
+                    http://${NEXUS_IP}:${NEXUS_PORT}/${RELEASE_REPO}/"""         
+            }
+        }
+        stage('Deploy to Container') {
+            steps {
+                deployToContainer(
+                    url: "${CONTAINER_URL}",
+                    credentialsId: "${CONTAINER_CREDENTIALS_ID}",
+                    path: 'build/arzoo01.war',
+                    deployPath: ''  // Specify the correct path in your container
+                )
+            }
+        }
+        stage('Clean Up') {
+            steps {
+                sh 'rm -rf build/'
+            }
+        }
+    }
+    post {
         always {
-            
-               junit '**/test-results/*.xml'
-            
-             }
-        success {
-               echo 'Pipeline succeeded!'
-                }
-        failure {
-               echo 'Pipeline failed!'
-               }
+            junit '**/test-results/*.xml'
         }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
 }
+
