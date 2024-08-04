@@ -5,7 +5,6 @@ pipeline {
         nodejs 'nodejs12'
     }
     environment {
-        // Replace these with your actual Jenkins credentials IDs
         NEXUS_USER = credentials('admin')
         NEXUS_PASS = credentials('priya')
         NEXUS_IP = '204.236.255.99'
@@ -32,9 +31,8 @@ pipeline {
             steps {
 	          node
 		  {
-                junit 'test-results/*.xml'
-            }
-	    }
+                sh 'npm run test'
+            	    }
         }
         stage('SonarQube Analysis') {
             steps {
