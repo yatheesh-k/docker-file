@@ -34,10 +34,8 @@ pipeline {
                 node
 		{
                     junit '**/test-results/*.xml'
-                }
-            }
-        }
-            	    }
+                 }
+      	    }
         }
         stage('SonarQube Analysis') {
             steps {
@@ -97,5 +95,5 @@ pipeline {
             echo 'Pipeline failed!'
         }
     }
-}
+    }
 
