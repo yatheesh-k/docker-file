@@ -9,7 +9,7 @@ pipeline {
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'priya'
         RELEASE_REPO = 'arzoo01-release'
-       
+        SONARSERVER = 'sonartoken'
         NEXUS_IP = '172.31.46.99' 
         NEXUS_PORT = '8081'
     
@@ -29,6 +29,14 @@ pipeline {
             }
 
         }
+	        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv(SONARSERVER) {
+                    sh 'npm run sonar'
+                }
+            }
+        }
+
 
     }        
 }
