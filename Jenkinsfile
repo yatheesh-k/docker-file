@@ -51,26 +51,34 @@ pipeline {
             }
         }
 	}
+	stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
 
         stage('Publish to Nexus') {
             steps {
                script{
-                    def artifactId = 'arzoo01'
-                    def version = '1.0.0'
-                    def file = 'build.zip'
-                    
-		    sh "zip -r ${file} build/"
-                    
-                    nexusArtifactUploader artifacts: [
-                        [artifactId: artifactId, file: file, type: 'zip', version: version]
-                    ],
+                      
+		                       
+                    nexusArtifactUploader(
                     credentialsId: 'nexuslogin',
 		    groupid: 'com.myproject',
- 
+                    protocol:'http'   
                     
-                    nexusUrl: 'http://172.31.46.99',
+                    nexusUrl: '172.31.46.99:9000/',
                     nexusVersion: 'nexus2',
-                    repository: 'reactappl'
+                    repository: 'reactappl',
+		    artifacts:[
+		    [artifactid:'arzoo01',
+		    classifier: '',
+                            file: '/build/arzoo01',
+                            type: '.jar']
+			    ]
                 }
             }
         }
