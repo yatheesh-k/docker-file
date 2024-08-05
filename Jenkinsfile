@@ -3,8 +3,7 @@ pipeline {
 
     tools {
         nodejs 'nodejs22'
-	sonarQubeScanner 'scanner'
-    }
+         }
 
     stages {
         stage('Checkout') {
@@ -38,7 +37,7 @@ pipeline {
                 
                     withSonarQubeEnv('sonarserver') {
                     sh '''
-		       sonarQubeScanner \
+		       scanner \
                        
                        -Dsonar.projectKey=arzoo01 \
                        -Dsonar.sources=src \
