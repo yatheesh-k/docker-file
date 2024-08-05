@@ -39,7 +39,7 @@ sonar.tests=tests
 
 
 sonar.host.url=http://172.31.47.80:9000
-sonar.login=your-sonartoken
+sonar.login=sonartoken
 		    sh 'scanner'
                     sh 'npm run sonar'
                 }
