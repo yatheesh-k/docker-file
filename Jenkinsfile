@@ -79,6 +79,7 @@ pipeline {
                             file: '/build/arzoo01',
                             type: '.jar']
 			    ]
+			    )
                 }
             }
         }
