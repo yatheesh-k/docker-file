@@ -22,9 +22,9 @@ pipeline {
 
         stage('Build') {
             steps {
-                node {
+                
                     sh 'npm run build'
-                }
+                
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
                 SONARQUBE = credentials('sonarserver') // Add SonarQube token as Jenkins credential
             }
             steps {
-                node {
+                
                     sh 'npm install -g sonarqube-scanner'
                     sh '''
                        scanner \
@@ -42,7 +42,7 @@ pipeline {
                        -Dsonar.host.url=http://172.31.47.80 \
                        -Dsonar.login=$SONARQUBE
                     '''
-                }
+                
             }
         }
 
