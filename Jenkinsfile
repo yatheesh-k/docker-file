@@ -32,6 +32,7 @@ pipeline {
 	        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv(SONARSERVER) {
+		    sh 'scanner'
                     sh 'npm run sonar'
                 }
             }
