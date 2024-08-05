@@ -30,16 +30,19 @@ pipeline {
 
         stage('SonarQube Analysis') {
             environment {
-	         
+	        scannerHome = tool 'scanner' 
                 SONARQUBE = credentials('sonartoken') // Add SonarQube token as Jenkins credential
             }
             steps {
                 
                     withSonarQubeEnv('sonarserver') {
                     sh '''
-		       scanner \
+		       ${scannerHome}/bin/scanner \
                        
                        -Dsonar.projectKey=arzoo01 \
+
+                       -Dsonar.projectName=arzoo01 \
+
                        -Dsonar.sources=src \
                        -Dsonar.host.url=http://172.31.47.80:9000/ \
                        -Dsonar.login=$SONARQUBE
