@@ -10,13 +10,19 @@ pipeline {
         NEXUS_IP = '35.153.170.151'
         NEXUS_PORT = '8081'
         RELEASE_REPO = 'arzoo01-release'
-        SONARSERVER = 'sonartoken'
+        SONARSERVER = 'sonarserver'
+	SONARSCANNER = 'scanner'
         CONTAINER_URL = 'http://localhost:8080/manager/text'  // Container URL
         CONTAINER_CREDENTIALS_ID = 'tomcat_credential_id'  // Jenkins credentials ID for the container
     }
     
 
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/lakshmipriyapbt/arzoo01'
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -28,17 +34,18 @@ pipeline {
                 
             }
         }
-        stage('Test') {
-            steps {
-                		{
-                    junit '**/test-results/*.xml'
-                
-      	    }
-        }
+               
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv(SONARSERVER) {
-                    sh 'npm run sonar'
+                sh '''
+                       scanner \
+                       -Dsonar.projectKey=arzoo01 \
+                       -Dsonar.sources=. \
+                       -Dsonar.host.url=http://172.31.47.80 \
+                       -Dsonar.login=$SONARSERVER
+                    '''
+                
                 }
             }
         }
