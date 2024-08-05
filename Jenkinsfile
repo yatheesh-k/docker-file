@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs22' 
+        nodejs 'nodejs22'
+	sonarQubeScanner 'scanner'
     }
 
     stages {
@@ -30,14 +31,14 @@ pipeline {
 
         stage('SonarQube Analysis') {
             environment {
-	         SCANNER_HOME = tool 'scanner'
-                SONARQUBE = credentials('sonarserver') // Add SonarQube token as Jenkins credential
+	         
+                SONARQUBE = credentials('sonartoken') // Add SonarQube token as Jenkins credential
             }
             steps {
                 
-                    
+                    withSonarQubeEnv('sonarserver') {
                     sh '''
-		       ${SCANNER_HOME}/scanner
+		       sonarQubeScanner \
                        
                        -Dsonar.projectKey=arzoo01 \
                        -Dsonar.sources=src \
