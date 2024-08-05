@@ -48,24 +48,24 @@ pipeline {
 
         stage('Publish to Nexus') {
             steps {
-                
+               script{
                     def artifactId = 'arzoo01'
                     def version = '1.0.0'
                     def file = 'build.zip'
                     
-                    sh "zip -r ${file} build/"
+		    sh "zip -r ${file} build/"
                     
                     nexusArtifactUploader artifacts: [
                         [artifactId: artifactId, file: file, type: 'zip', version: version]
                     ],
-                    credentialsId: 'NEXUS_USER = credentials('admin') ,NEXUS_PASS = credentials('priya')',
+                    credentialsId: 'nexuslogin',
 		    groupid: 'com.myproject',
  
                     
                     nexusUrl: 'http://172.31.46.99',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl'
-                
+                }
             }
         }
     }
