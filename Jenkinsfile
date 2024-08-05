@@ -58,9 +58,10 @@ pipeline {
                     nexusArtifactUploader artifacts: [
                         [artifactId: artifactId, file: file, type: 'zip', version: version]
                     ],
-                    credentialsId: 'NEXUS_USER = credentials('admin') ,NEXUS_PASS = credentials('priya')'
+                    credentialsId: 'NEXUS_USER = credentials('admin') ,NEXUS_PASS = credentials('priya')',
+		    groupid: 'com.myproject',
  
-                    groupId: 'com.react',
+                    
                     nexusUrl: 'http://172.31.46.99',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl'
