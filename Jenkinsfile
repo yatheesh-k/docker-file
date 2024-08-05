@@ -30,7 +30,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             environment {
-                SONARQUBE = credentials('sonartoken') // Add SonarQube token as Jenkins credential
+                SONARQUBE = credentials('sonarserver') // Add SonarQube token as Jenkins credential
             }
             steps {
                 node {
