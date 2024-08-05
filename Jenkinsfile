@@ -68,7 +68,7 @@ pipeline {
                     nexusArtifactUploader(
                     credentialsId: 'nexuslogin',
 		    groupid: 'com.myproject',
-                    protocol:'http'   
+                    protocol:'http',   
                     
                     nexusUrl: '172.31.46.99:9000/',
                     nexusVersion: 'nexus2',
