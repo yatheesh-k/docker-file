@@ -34,8 +34,6 @@ pipeline {
                 withSonarQubeEnv(SONARSERVER) {
 	sonar.projectKey=arzoo01
 sonar.projectName=arzoo01
-sonar.projectVersion=0.0.0
-
 sonar.sources=src
 sonar.tests=tests
 
