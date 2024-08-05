@@ -36,7 +36,7 @@ pipeline {
                 
                     sh 'npm install -g sonarqube-scanner'
                     sh '''
-                       scanner \
+                       sonarqube-scanner \
                        -Dsonar.projectKey=arzoo01 \
                        -Dsonar.sources=. \
                        -Dsonar.host.url=http://172.31.47.80 \
