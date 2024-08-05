@@ -7,7 +7,7 @@ pipeline {
     environment {
         NEXUS_USER = credentials('admin')
         NEXUS_PASS = credentials('priya')
-        NEXUS_IP = '204.236.255.99'
+        NEXUS_IP = '35.153.170.151'
         NEXUS_PORT = '8081'
         RELEASE_REPO = 'arzoo01-release'
         SONARSERVER = 'sonartoken'
