@@ -14,9 +14,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                node {
+                
                     sh 'npm install'
-                }
+                
             }
         }
 
@@ -48,7 +48,7 @@ pipeline {
 
         stage('Publish to Nexus') {
             steps {
-                node {
+                
                     def artifactId = 'arzoo01'
                     def version = '1.0.0'
                     def file = 'build.zip'
@@ -65,7 +65,7 @@ pipeline {
                     nexusUrl: 'http://172.31.46.99',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl'
-                }
+                
             }
         }
     }
