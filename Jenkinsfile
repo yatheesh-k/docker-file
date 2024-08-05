@@ -6,19 +6,18 @@ pipeline {
     }
 
     environment {
-        SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'priya'
         RELEASE_REPO = 'arzoo01-release'
        
-        NEXUS_IP = '172.31.46.99' #nexus server private ip
+        NEXUS_IP = '172.31.46.99' 
         NEXUS_PORT = '8081'
     
         NEXUS_LOGIN = 'nexuslogin'
     }
 
     stages {
-        stage('Build'){
+        stage('install'){
             steps {
                 sh 'npm install'
             }
