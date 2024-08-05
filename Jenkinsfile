@@ -1,21 +1,9 @@
 pipeline {
     agent any
+
     tools {
-    
-        nodejs 'nodejs22'
+        nodejs 'nodejs22' 
     }
-    environment {
-        NEXUS_USER = credentials('admin')
-        NEXUS_PASS = credentials('priya')
-        NEXUS_IP = '35.153.170.151'
-        NEXUS_PORT = '8081'
-        RELEASE_REPO = 'arzoo01-release'
-        SONARSERVER = 'sonarserver'
-	SONARSCANNER = 'scanner'
-        CONTAINER_URL = 'http://localhost:8080/manager/text'  // Container URL
-        CONTAINER_CREDENTIALS_ID = 'tomcat_credential_id'  // Jenkins credentials ID for the container
-    }
-    
 
     stages {
         stage('Checkout') {
@@ -23,80 +11,69 @@ pipeline {
                 git 'https://github.com/lakshmipriyapbt/arzoo01'
             }
         }
+
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                node {
+                    sh 'npm install'
+                }
             }
         }
+
         stage('Build') {
             steps {
-                 sh 'npm run build'
-                
+                node {
+                    sh 'npm run build'
+                }
             }
         }
-               
+
         stage('SonarQube Analysis') {
+            environment {
+                SONARQUBE = credentials('sonartoken') // Add SonarQube token as Jenkins credential
+            }
             steps {
-                withSonarQubeEnv(SONARSERVER) {
-                sh '''
+                node {
+                    sh 'npm install -g sonarqube-scanner'
+                    sh '''
                        scanner \
                        -Dsonar.projectKey=arzoo01 \
                        -Dsonar.sources=. \
                        -Dsonar.host.url=http://172.31.47.80 \
-                       -Dsonar.login=$SONARSERVER
+                       -Dsonar.login=$SONARQUBE
                     '''
-                
                 }
             }
         }
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-        stage('Archive Artifacts') {
-            steps {
-                archiveArtifacts artifacts: 'build/**', allowEmptyArchive: true
-            }
-        }
-        
-        
+
         stage('Publish to Nexus') {
             steps {
-                sh """curl -v -u ${NEXUS_USER}:${NEXUS_PASS} \
-                    --upload-file build/arzoo01 \
-                    http://${NEXUS_IP}:${NEXUS_PORT}/${RELEASE_REPO}/"""         
-            }
-        }
-        stage('Deploy to Container') {
-            steps {
-                deployToContainer(
-                    url: "${CONTAINER_URL}",
-                    credentialsId: "${CONTAINER_CREDENTIALS_ID}",
-                    path: 'build/arzoo01.war',
-                    deployPath: ''  // Specify the correct path in your container
-                )
-            }
-        }
-        stage('Clean Up') {
-            steps {
-                sh 'rm -rf build/'
+                node {
+                    def artifactId = 'arzoo01'
+                    def version = '1.0.0'
+                    def file = 'build.zip'
+                    
+                    sh "zip -r ${file} build/"
+                    
+                    nexusArtifactUploader artifacts: [
+                        [artifactId: artifactId, file: file, type: 'zip', version: version]
+                    ],
+                    credentialsId: 'NEXUS_USER = credentials('admin') ,NEXUS_PASS = credentials('priya')'
+ 
+                    groupId: 'com.arzoo01',
+                    nexusUrl: 'http://172.31.46.99',
+                    nexusVersion: 'nexus2',
+                    repository: 'reactappl'
+                }
             }
         }
     }
+
     post {
         always {
-	     
-            junit '**/test-results/*.xml'
-        }
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed!'
+            cleanWs() // Clean workspace after the build
         }
     }
-    }
+}
+
 
