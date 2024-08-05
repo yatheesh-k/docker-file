@@ -60,7 +60,7 @@ pipeline {
                     ],
                     credentialsId: 'NEXUS_USER = credentials('admin') ,NEXUS_PASS = credentials('priya')'
  
-                    groupId: 'com.arzoo01',
+                    groupId: 'com.react',
                     nexusUrl: 'http://172.31.46.99',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl'
