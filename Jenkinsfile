@@ -32,14 +32,14 @@ pipeline {
 	        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv(SONARSERVER) {
-	sonar.projectKey=arzoo01
-sonar.projectName=arzoo01
-sonar.sources=src
-sonar.tests=tests
+	sh'''sonar.projectKey=arzoo01 \
+sonar.projectName=arzoo01 \
+sonar.sources=src \
+sonar.tests=tests \
 
 
-sonar.host.url=http://172.31.47.80:9000
-sonar.login=sonartoken
+sonar.host.url=172.31.47.80:9000 \
+sonar.login=sonartoken'''
 		    sh 'scanner'
                     sh 'npm run sonar'
                 }
