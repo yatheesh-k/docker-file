@@ -37,7 +37,7 @@ pipeline {
                 
                     withSonarQubeEnv('sonarserver') {
                     sh '''
-		                             
+		        set -x                     
                        -Dsonar.projectKey=arzoo01 \
 
                        -Dsonar.projectName=arzoo01 \
@@ -45,7 +45,7 @@ pipeline {
                        -Dsonar.sources=src \
                        -Dsonar.host.url=https://172.31.47.80:9000/ \
                        -Dsonar.login=${SONARQUBE}
-		       -X
+		      
                     
 		    '''
                 
