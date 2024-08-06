@@ -33,6 +33,14 @@ pipeline {
 	        scannerHome = tool 'scanner' 
                 SONARQUBE = credentials('sonartoken') // Add SonarQube token as Jenkins credential
             }
+	    stages {
+        stage('Verify Scanner Path') {
+            steps {
+                script {
+                    sh "ls -l ${scannerHome}/bin"
+                }
+            }
+        }
             steps {
                 
                     withSonarQubeEnv('sonarserver') {
