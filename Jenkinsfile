@@ -26,14 +26,7 @@ pipeline {
                     sh 'npm run build'
                 
             }
-        }
-	stage('Verify Environment') {
-    steps {
-        script {
-            echo "SonarQube Scanner Home: ${scannerHome}"
-            echo "SonarQube Token: ${SONARQUBE}"
-        }
-    }
+ 
 }
 	stage('SonarQube Analysis') {
             environment {
@@ -44,8 +37,7 @@ pipeline {
                 
                     withSonarQubeEnv('sonarserver') {
                     sh '''
-		       ${scannerHome}/bin/sonar-scanner \
-                       
+		                             
                        -Dsonar.projectKey=arzoo01 \
 
                        -Dsonar.projectName=arzoo01 \
