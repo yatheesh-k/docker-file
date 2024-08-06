@@ -42,7 +42,6 @@ pipeline {
 			${scannerHome}/bin/sonar-scanner \
                        -Dsonar.projectKey=arzoo01 \
 
-                       -Dsonar.projectName=arzoo01 \
 
                        -Dsonar.sources=src \
                        -Dsonar.host.url=https://172.31.47.80:9000/ \
