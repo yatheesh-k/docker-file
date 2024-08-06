@@ -43,7 +43,7 @@ pipeline {
                        -Dsonar.projectKey=arzoo01 \
 
 
-                       -Dsonar.sources=src \
+                       -Dsonar.sources=.\
                        -Dsonar.host.url=https://172.31.47.80:9000/ \
                        -Dsonar.login=${SONARQUBE}
 		      
