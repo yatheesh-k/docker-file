@@ -39,23 +39,22 @@ pipeline {
                     withSonarQubeEnv('sonarserver') {
                     sh """
 		       set -x
-	              ${scannerHome}/bin/sonar-scanner  
-		      -Dsonar.projectKey=arzoo01 
+	               ${scannerHome}/bin/sonar-scanner  
+		       -Dsonar.projectKey=arzoo01 
                        -Dsonar.projectName=arzoo01    
-		        -Dsonar.projectVersion=1.0 
+		       -Dsonar.projectVersion=1.0 
                        -Dsonar.sources=src 
 		       -Dsonar.sourceEncoding=UTF-8 
                        -Dsonar.host.url=https://172.31.47.80:9000/    
-                       -Dsonar.login=${SONARQUBE}
-
-                    """
+                       
+			     """
 		    }
                 
                     }
 	}
 	stage('Quality Gate') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate abortPipeline: true
                 }
             }
