@@ -38,7 +38,7 @@ pipeline {
                 
                     withSonarQubeEnv('sonarserver') {
                     sh """
-	               sonar-scanner 
+	               ${scannerHome}/bin/sonar-scanner  
 		       -Dsonar.projectKey=react
                        -Dsonar.projectName=react     
 		       -Dsonar.projectVersion=1.0 
