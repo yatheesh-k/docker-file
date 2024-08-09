@@ -1,4 +1,4 @@
-pipeline {
+}pipeline {
     agent any
 
     tools {
@@ -46,7 +46,7 @@ pipeline {
                       -Dsonar.host.url=https://172.31.47.80:9000 \
                       -Dsonar.login=${SONARQUBE}'
                     
-		    
+		    }
                 
                     }
 	}
