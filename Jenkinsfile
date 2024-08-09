@@ -39,13 +39,13 @@ pipeline {
                     withSonarQubeEnv('sonarserver') {
                     sh '''
 		       set -x
-	              sh """${scannerHome}/bin/sonar-scanner \ 
-		      -Dsonar.projectKey=arzoo01 \
-                       -Dsonar.projectName=arzoo01 \   
-		        -Dsonar.projectVersion=1.0 \
-                       -Dsonar.sources=src \
-		       -Dsonar.sourceEncoding=UTF-8 \ 
-                       -Dsonar.host.url=https://172.31.47.80:9000/ \   
+	              sh """${scannerHome}/bin/sonar-scanner  
+		      -Dsonar.projectKey=arzoo01 
+                       -Dsonar.projectName=arzoo01    
+		        -Dsonar.projectVersion=1.0 
+                       -Dsonar.sources=src 
+		       -Dsonar.sourceEncoding=UTF-8 
+                       -Dsonar.host.url=https://172.31.47.80:9000/    
                        -Dsonar.login=${SONARQUBE}
 
                     """
