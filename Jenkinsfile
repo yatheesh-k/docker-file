@@ -37,15 +37,15 @@ pipeline {
             steps {
                 
                     withSonarQubeEnv('sonarserver') {
-                    sh 
-		        '/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/scanner/bin/sonar-scanner \
+                    sh '''
+		        /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/scanner/bin/sonar-scanner \
                       -Dsonar.projectKey=arzoo01 \
                       -Dsonar.projectName="arzoo01" \
                       -Dsonar.projectVersion=1.0 \
                       -Dsonar.sources=src \
                       -Dsonar.host.url=https://172.31.47.80:9000 \
-                      -Dsonar.login=${SONARQUBE}'
-                    
+                      -Dsonar.login=${SONARQUBE}
+                    '''
 		    }
                 
                     }
