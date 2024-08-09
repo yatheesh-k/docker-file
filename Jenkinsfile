@@ -39,7 +39,7 @@ pipeline {
                     withSonarQubeEnv('sonarserver') {
                     sh '''
 		        set -x
-			${scannerHome}
+			/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/scanner
                        -Dsonar.projectKey=arzoo01 \
 
 
