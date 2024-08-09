@@ -39,7 +39,7 @@ pipeline {
                     withSonarQubeEnv('sonarserver') {
                     sh '''
 		    
-	               ${scannerHome}/bin/sonar-scanner 
+	               ${scannerHome}/bin/sonar-scanner -X
 		       -Dsonar.projectKey=arzoo01
                        -Dsonar.projectName=arzoo01    
 		       -Dsonar.projectVersion=1.0 
