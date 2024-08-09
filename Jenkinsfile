@@ -40,7 +40,7 @@ pipeline {
                     sh '''
 		       set -x
 	              sonar-scanner 
-		      -Dsonar.Project Key=arzoo01 
+		      -Dsonar.projectKey=arzoo01 
                        -Dsonar.projectName="arzoo01"  
 
                        -Dsonar.sources=src/ 
