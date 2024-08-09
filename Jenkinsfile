@@ -39,8 +39,8 @@ pipeline {
                     withSonarQubeEnv('sonarserver') {
                     sh """
 	               sonar-scanner 
-		       -Dsonar.projectKey=arzoo01
-                       -Dsonar.projectName=arzoo01     
+		       -Dsonar.projectKey=react
+                       -Dsonar.projectName=react     
 		       -Dsonar.projectVersion=1.0 
                        -Dsonar.sources=src 
 		       -Dsonar.sourceEncoding=UTF-8  
