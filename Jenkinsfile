@@ -37,7 +37,7 @@ pipeline {
             steps {
                 
                     withSonarQubeEnv('sonarserver') {
-                    sh """
+                    sh '''
 	               ${scannerHome}/bin/sonar-scanner  
 		       -Dsonar.projectKey=arzoo01
                        -Dsonar.projectName=arzoo01    
@@ -46,7 +46,7 @@ pipeline {
 		       -Dsonar.sourceEncoding=UTF-8  
                        -Dsonar.host.url=https://172.31.47.80:9000/    
 		                           
-			     """
+			     '''
 		    }
                 
                     }
