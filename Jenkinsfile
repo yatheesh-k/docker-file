@@ -55,12 +55,14 @@ pipeline {
 	}
 	stage('Quality Gate') {
             steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
+                script {
+                    def qualityGate = waitForQualityGate()
+                    if (qualityGate.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qualityGate.status}"
+                    }
                 }
             }
         }
-
 
         stage('Publish to Nexus') {
             steps {
