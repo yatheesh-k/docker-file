@@ -70,6 +70,8 @@ pipeline {
                     repository: 'reactappl',
 		    artifacts:[
 		    [artifactId:'arzoo01',
+		     classifier: '',
+		     version: '1.0',
 		
 		        
                             file: 'arzoo01.tar.gz',
