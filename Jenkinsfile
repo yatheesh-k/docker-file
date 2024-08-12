@@ -79,7 +79,7 @@ pipeline {
 		     	  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
 		     classifier: '',    
 			        
-                            file: '/arzoo01.tar.gz',
+                            file: '/var/lib/jenkins/workspace/react/arzoo01.tar.gz',
                             type: '.tar']
 			    ]
 			    )
