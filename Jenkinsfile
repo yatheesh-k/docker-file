@@ -44,7 +44,7 @@ pipeline {
 			  -Dsonar.projectVersion=1.0 \
 			  -Dsonar.sources=src \
 			  -Dsonar.sourceEncoding=UTF-8 \
-			  -Dsonar.host.url=https://54.175.100.12:9000 \
+			  -Dsonar.host.url=https://3.90.165.180:9000 \
 			  -Dsonar.login=${SONARQUBE}
 
 		                           
