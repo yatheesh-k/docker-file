@@ -65,6 +65,7 @@ pipeline {
         stage('Publish to Nexus') {
             steps {
                script{
+		        sh 'ls -la arzoo01.tar.gz'
 		       
 	               
 		  nexusArtifactUploader(
@@ -79,7 +80,7 @@ pipeline {
 		     classifier: '',    
 			        
                             file: 'arzoo01.tar.gz',
-                            type: 'tar.gz']
+                            type: '.tar']
 			    ]
 			    )
 		       
