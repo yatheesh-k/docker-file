@@ -72,7 +72,7 @@ pipeline {
 		    [artifactId:'arzoo01',
 		
 		        
-                            file: 'react/arzoo01.tar.gz',
+                            file: 'arzoo01.tar.gz',
                             type: '.tar']
 			    ]
 			    )
