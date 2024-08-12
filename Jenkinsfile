@@ -69,11 +69,11 @@ pipeline {
                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
 		    artifacts:[
-		    [artifactid:'arzoo01',
+		    [artifactId:'arzoo01',
 		
 		        version: '1.0',
                             file: 'react/arzoo01.tar',
-                            type: 'tar']
+                            type: '.tar']
 			    ]
 			    )
                 }
