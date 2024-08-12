@@ -24,6 +24,7 @@ pipeline {
             steps {
                 
                     sh 'npm run build'
+		    
                 
             }
  
@@ -54,6 +55,7 @@ pipeline {
             steps {
                script{
 		        sh 'ls -la build/'
+		       sh 'find . -type f'
                       
 		                       
                     nexusArtifactUploader(
