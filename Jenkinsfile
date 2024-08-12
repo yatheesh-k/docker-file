@@ -32,7 +32,7 @@ pipeline {
 	    stage('Create Tar File') {
             steps {
                 // Change the following path based on where your build outputs are located
-                sh 'tar -cvf arzoo01.tar.gz -C dist .'
+                sh 'tar -czvf arzoo01.tar.gz -C dist .'
             }
         }
 
@@ -74,8 +74,8 @@ pipeline {
 		     
 		
 		        
-                            file: '/react/arzoo01.tar.gz',
-                            type: '.tar.gz']
+                            file: 'arzoo01.tar.gz',
+                            type: 'tar.gz']
 			    ]
 			    )
                 }
