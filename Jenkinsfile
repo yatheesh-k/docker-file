@@ -72,14 +72,14 @@ pipeline {
 		     credentialsId: env.NEXUS_CREDENTIALS_ID,
                      nexusUrl: "${env.NEXUS_URL}",
                      nexusVersion: 'nexus2',
-                    repository: 'reactappl',
+                    repository: 'reactappl/',
 		
 		    artifacts: [
 		    [artifactId: 'arzoo01',
-		     	  version: '1.0',
+		     	  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
 		     classifier: '',    
 			        
-                            file: 'arzoo01.tar.gz',
+                            file: '/arzoo01.tar.gz',
                             type: '.tar']
 			    ]
 			    )
