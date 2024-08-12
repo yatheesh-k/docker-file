@@ -5,7 +5,7 @@ pipeline {
         nodejs 'nodejs22'
          }
 	 environment {
-        NEXUS_URL = 'http://52.205.56.78:8081' // Base URL for Nexus
+        NEXUS_URL = 'http://52.205.56.78:8081/' // Base URL for Nexus
         NEXUS_CREDENTIALS_ID = 'nexuslogin' // Jenkins credentials ID for Nexus
     }
 
@@ -69,15 +69,15 @@ pipeline {
 		       
 	               
 		  nexusArtifactUploader(
-		     credentialsId: env.NEXUS_CREDENTIALS_ID,
-                     nexusUrl: "${env.NEXUS_URL}",
+		     credentialsId: ${NEXUS_CREDENTIALS_ID},
+                     nexusUrl: "${NEXUS_URL}",
                      nexusVersion: 'nexus2',
                     repository: 'reactappl/',
 		
 		    artifacts: [
 		    [artifactId: 'arzoo01',
-		     version: '1.0.0',
-		     	//  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+		    // version: '1.0.0',
+		     	 version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
 		     classifier: '',    
 			        
                             file: 'arzoo01.tar.gz',
