@@ -68,8 +68,8 @@ pipeline {
                     nexusUrl: 'http://54.167.214.19:8081/',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
-		    artifacts:[
-		    [artifactId:'arzoo01',
+		    artifacts: [
+		    [artifactId: 'arzoo01',
 		     classifier: '',
 		     
 		
