@@ -29,6 +29,13 @@ pipeline {
             }
  
 }
+	    stage('Create Tar File') {
+            steps {
+                // Change the following path based on where your build outputs are located
+                sh 'tar -cvf arzoo01.tar -C build .'
+            }
+        }
+
 	stage('SonarQube Analysis') {
             environment {
 	        scannerHome = tool 'scanner' 
@@ -67,8 +74,9 @@ pipeline {
 		    artifacts:[
 		    [artifactid:'arzoo01',
 		    classifier: '',
-                            file: '/build/arzoo01',
-                            type: '.jar']
+		     
+                            file: 'arzoo01.tar',
+                            type: 'tar']
 			    ]
 			    )
                 }
