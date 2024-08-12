@@ -61,11 +61,13 @@ pipeline {
         stage('Publish to Nexus') {
             steps {
                script{
+		       def file = 'arzoo01.tar.gz'
+		        sh "ls -la ${file}"
 		        
 	               
 		  nexusArtifactUploader(
                     credentialsId: 'nexuslogin',                   
-                    nexusUrl: 'http://54.167.214.19:8081/',
+                    nexusUrl: 'http://54.167.214.19:8081/${file}',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
 		    artifacts: [
@@ -78,6 +80,7 @@ pipeline {
                             type: 'tar.gz']
 			    ]
 			    )
+		       sh "rm -rf ${file}"
                 }
             }
         }
