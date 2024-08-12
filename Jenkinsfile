@@ -54,11 +54,9 @@ pipeline {
         stage('Publish to Nexus') {
             steps {
                script{
-		        sh 'ls -la build/'
-		       sh 'find . -type f'
-                      
-		                       
-                    nexusArtifactUploader(
+		        
+	               
+		   ArtifactUploader(
                     credentialsId: 'nexuslogin',
 		    
                     protocol:'http',   
