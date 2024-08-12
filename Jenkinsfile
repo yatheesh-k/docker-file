@@ -76,7 +76,7 @@ pipeline {
 		
 		    artifacts: [
 		    [artifactId: 'arzoo01',
-		     	  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+		     	//  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
 		     classifier: '',    
 			        
                             file: '/var/lib/jenkins/workspace/react/arzoo01.tar.gz',
