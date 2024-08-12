@@ -80,7 +80,7 @@ pipeline {
 		     classifier: '',    
 			        
                             file: '/var/lib/jenkins/workspace/react/arzoo01.tar.gz',
-                            type: '.tar']
+                            type: 'tar']
 			    ]
 			    )
 		       
