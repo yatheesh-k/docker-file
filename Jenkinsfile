@@ -74,7 +74,7 @@ pipeline {
 		     version: '1.0',
 		
 		        
-                            file: 'arzoo01.tar.gz',
+                            file: '/react/arzoo01.tar.gz',
                             type: '.tar']
 			    ]
 			    )
