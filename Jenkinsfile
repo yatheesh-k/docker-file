@@ -63,7 +63,7 @@ pipeline {
 		    
                     protocol:'http',   
                     
-                    nexusUrl: '3.88.31.211:8081/',
+                    nexusUrl: '54.167.214.19:8081/',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
 		    artifacts:[
@@ -78,11 +78,4 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            cleanWs() // Clean workspace after the build
-        }
-    }
 }
-
-
