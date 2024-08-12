@@ -32,7 +32,7 @@ pipeline {
 	    stage('Create Tar File') {
             steps {
                 // Change the following path based on where your build outputs are located
-                sh 'tar -cvf arzoo01.tar -C build .'
+                sh 'tar -cvf arzoo01.tar -C dist .'
             }
         }
 
