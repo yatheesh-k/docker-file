@@ -72,7 +72,7 @@ pipeline {
 		    groupid: 'com.myproject',
                     protocol:'http',   
                     
-                    nexusUrl: '54.166.178.31:8081/',
+                    nexusUrl: '3.88.31.211:8081/',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
 		    artifacts:[
