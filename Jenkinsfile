@@ -71,7 +71,7 @@ pipeline {
 		    artifacts:[
 		    [artifactId:'arzoo01',
 		     classifier: '',
-		     version: '1.0',
+		     
 		
 		        
                             file: '/react/arzoo01.tar.gz',
