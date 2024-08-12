@@ -66,15 +66,15 @@ pipeline {
 		  nexusArtifactUploader(
                     credentialsId: 'nexuslogin',
 		    
-                    protocol:'http',   
+                    
                     
                     nexusUrl: '54.167.214.19:8081/',
                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
 		    artifacts:[
 		    [artifactid:'arzoo01',
-		    classifier: '',
-		     
+		
+		        version: '1.0',
                             file: 'arzoo01.tar',
                             type: 'tar']
 			    ]
