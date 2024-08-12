@@ -56,7 +56,7 @@ pipeline {
                script{
 		        
 	               
-		   ArtifactUploader(
+		  nexusArtifactUploader(
                     credentialsId: 'nexuslogin',
 		    
                     protocol:'http',   
