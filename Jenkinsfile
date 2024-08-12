@@ -5,7 +5,7 @@ pipeline {
         nodejs 'nodejs22'
          }
 	 environment {
-        NEXUS_URL = 'http://52.205.56.78:8081/' // Base URL for Nexus
+        NEXUS_URL = 'http://52.205.56.78:8081' // Base URL for Nexus
         NEXUS_CREDENTIALS_ID = 'nexuslogin' // Jenkins credentials ID for Nexus
     }
 
