@@ -4,6 +4,10 @@ pipeline {
     tools {
         nodejs 'nodejs22'
          }
+	 environment {
+        NEXUS_URL = 'http://54.167.214.19:8081/' // Base URL for Nexus
+        NEXUS_CREDENTIALS_ID = 'nexuslogin' // Jenkins credentials ID for Nexus
+    }
 
     stages {
         stage('Checkout') {
@@ -61,26 +65,24 @@ pipeline {
         stage('Publish to Nexus') {
             steps {
                script{
-		       def file = 'arzoo01.tar.gz'
-		        sh "ls -la ${file}"
-		        
+		       
 	               
 		  nexusArtifactUploader(
-                    credentialsId: 'nexuslogin',                   
-                    nexusUrl: 'http://54.167.214.19:8081/${file}',
-                    nexusVersion: 'nexus2',
+		     credentialsId: env.NEXUS_CREDENTIALS_ID,
+                     nexusUrl: "${env.NEXUS_URL}",
+                     nexusVersion: 'nexus2',
                     repository: 'reactappl',
+		
 		    artifacts: [
 		    [artifactId: 'arzoo01',
-		     classifier: '',
-		     
-		
-		        
+		     	  version: '1.0',
+		     classifier: '',    
+			        
                             file: 'arzoo01.tar.gz',
                             type: 'tar.gz']
 			    ]
 			    )
-		       sh "rm -rf ${file}"
+		       
                 }
             }
         }
