@@ -53,11 +53,12 @@ pipeline {
         stage('Publish to Nexus') {
             steps {
                script{
+		        sh 'ls -la build/'
                       
 		                       
                     nexusArtifactUploader(
                     credentialsId: 'nexuslogin',
-		    groupid: 'com.myproject',
+		    
                     protocol:'http',   
                     
                     nexusUrl: '3.88.31.211:8081/',
