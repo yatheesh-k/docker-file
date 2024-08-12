@@ -42,13 +42,9 @@ pipeline {
 			  -Dsonar.projectKey=arzoo01 \
 			  -Dsonar.projectName=arzoo01 \
 			  -Dsonar.projectVersion=1.0 \
-			  -Dsonar.sources=src \
-			  
-			  -Dsonar.host.url=http://3.90.165.180:9000 \
-                          -Dsonar.exclusions=**/node_modules/**,**/dist/**
-
-			  -Dsonar.login=${SONARQUBE}		                           
-			     '''
+			  -Dsonar.sources=src
+      
+			  '''
 		    }
                 
                     }
