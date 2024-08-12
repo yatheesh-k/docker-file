@@ -45,6 +45,8 @@ pipeline {
 			  -Dsonar.sources=. \
 			  
 			  -Dsonar.host.url=https://3.90.165.180:9000 \
+                          -Dsonar.exclusions=**/node_modules/**,**/dist/**
+
 			  -Dsonar.login=${SONARQUBE}
 
 		                           
