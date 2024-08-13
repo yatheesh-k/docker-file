@@ -66,11 +66,11 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
                     script {
-                        def file = "dist-${env.BUILD_ID}.tar.gz"
+                            def file = "dist-${env.BUILD_ID}.tar.gz"
 			    def filePath = "${env.WORKSPACE}/${file}"
                         // Upload the file using HTTP Request Plugin
                         retry(3) { // Retry up to 3 times
-    def response = httpRequest(
+                            def response = httpRequest(
                             httpMode: 'PUT',
                             acceptType: 'APPLICATION_JSON',
                             contentType: 'APPLICATION_OCTETSTREAM',
@@ -78,9 +78,9 @@ pipeline {
                             url: "${env.NEXUS_URL}${file}",
                             authentication:"${NEXUS_CREDENTIALS_ID}",
                             requestBody: readFile(filePath),
-				timeout: 600
+			    timeout: 600
                         )
-                        sh 'rm -rf dist-${BUILD_ID}.tar.gz'
+                           sh 'rm -rf dist-${BUILD_ID}.tar.gz'
                     }
                 }
             }
