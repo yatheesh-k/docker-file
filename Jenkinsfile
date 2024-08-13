@@ -33,10 +33,11 @@ pipeline {
             }
  
 }
-	    stage('Create Tar File') {
+	   stage('Zip Dist Directory') {
             steps {
-                // Change the following path based on where your build outputs are located
-                sh 'tar -czvf arzoo01.tar.gz -C dist .'
+                sh '''
+                zip -r dist-${BUILD_ID}.zip dist
+                '''
             }
         }
 
@@ -62,32 +63,25 @@ pipeline {
                     }
 	}
 	
-        stage('Publish to Nexus') {
+        stage('Upload Artifacts to Nexus') {
             steps {
-               script{
-		        sh 'ls -la arzoo01.tar.gz'
-		       
-	               
-		  nexusArtifactUploader(
-		     credentialsId: ${NEXUS_CREDENTIALS_ID},
-                     nexusUrl: "${NEXUS_URL}",
-                     nexusVersion: 'nexus2',
-                    repository: 'reactappl/',
-		
-		    artifacts: [
-		    [artifactId: 'arzoo01',
-		    // version: '1.0.0',
-		     	 version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-		     classifier: '',    
-			        
-                            file: 'arzoo01.tar.gz',
-                            type: '.tar']
-			    ]
-			    )
-		       
+                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                    script {
+                        def file = "dist-${env.BUILD_ID}.zip"
+                        // Upload the file using HTTP Request Plugin
+                        httpRequest(
+                            httpMode: 'PUT',
+                            acceptType: 'APPLICATION_JSON',
+                            contentType: 'APPLICATION_OCTETSTREAM',
+                            consoleLogResponseBody: true,
+                            url: "${env.NEXUS_URL}${file}",
+                            authentication: 'nexus',
+                            requestBody: readFile(file)
+                        )
+                        sh 'rm -rf dist-${BUILD_ID}.zip'
+                    }
                 }
             }
-        }
-    }
+           
 
 }
