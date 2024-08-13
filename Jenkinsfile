@@ -74,7 +74,7 @@ pipeline {
                             contentType: 'APPLICATION_OCTETSTREAM',
                             consoleLogResponseBody: true,
                             url: "${env.NEXUS_URL}${file}",
-                            authentication: ${NEXUS_CREDENTIALS_ID},
+                            authentication:"${NEXUS_CREDENTIALS_ID}",
                             requestBody: readFile(file)
                         )
                         sh 'rm -rf dist-${BUILD_ID}.tar.gz'
