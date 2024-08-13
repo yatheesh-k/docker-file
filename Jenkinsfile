@@ -33,15 +33,13 @@ pipeline {
             }
  
 }
-	   stage('Zip files') {
+	  
+           stage('Tar Files') {
             steps {
-        
-		sh 'apt-get update && apt-get install -y zip'
-                sh 'zip -r dist-${BUILD_ID}.zip dist'
-        
+                sh 'tar -czvf dist-${BUILD_ID}.tar.gz dist'
             }
         }
-
+        
 	stage('SonarQube Analysis') {
             environment {
 	        scannerHome = tool 'scanner' 
@@ -68,7 +66,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
                     script {
-                        def file = "dist-${env.BUILD_ID}.zip"
+                        def file = "dist-${env.BUILD_ID}.tar.gz"
                         // Upload the file using HTTP Request Plugin
                         httpRequest(
                             httpMode: 'PUT',
@@ -79,7 +77,7 @@ pipeline {
                             authentication: 'nexuslogin',
                             requestBody: readFile(file)
                         )
-                        sh 'rm -rf dist-${BUILD_ID}.zip'
+                        sh 'rm -rf dist-${BUILD_ID}.tar.gz'
                     }
                 }
             }
