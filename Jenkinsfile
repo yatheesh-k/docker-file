@@ -62,25 +62,45 @@ pipeline {
                     }
 	}
 	
-        stage('Upload Artifacts to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    script {
-                        def file = "dist-${env.BUILD_ID}.tar.gz"
-                        // Upload the file using HTTP Request Plugin
-                        httpRequest(
-                            httpMode: 'PUT',
-                            acceptType: 'APPLICATION_JSON',
-                            contentType: 'APPLICATION_OCTETSTREAM',
-                            consoleLogResponseBody: true,
-                            url: "${env.NEXUS_URL}${file}",
-                            authentication: 'nexuslogin',
-                            requestBody: readFile(file)
-                        )
-                        sh 'rm -rf dist-${BUILD_ID}.tar.gz'
-                    }
+       stage('Upload Artifacts to Nexus') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+            script {
+                def file = "dist-${env.BUILD_ID}.tar.gz"
+                def filePath = "${env.WORKSPACE}/${file}"
+                
+                // Ensure file exists before attempting to upload
+                if (!fileExists(filePath)) {
+                    error "Artifact file ${file} does not exist in the workspace."
                 }
+
+                // Upload the file using HTTP Request Plugin
+                retry(3) { // Retry up to 3 times in case of failure
+                    def response = httpRequest(
+                        httpMode: 'PUT',
+                        acceptType: 'APPLICATION_JSON',
+                        contentType: 'APPLICATION_OCTETSTREAM',
+                        consoleLogResponseBody: true,
+                        url: "${env.NEXUS_URL}/${file}",
+                        authentication: env.NEXUS_CREDENTIALS_ID,
+                        requestBody: readFile(filePath),
+                        timeout: 600 // Set a timeout of 10 minutes
+                    )
+                    
+                    // Check response code
+                    if (response.status != 201) { // 201 Created is a common successful response for PUT
+                        error "Failed to upload artifact: HTTP ${response.status}"
+                    }
+                    
+                    echo "Artifact uploaded successfully with HTTP ${response.status}"
+                }
+
+                // Clean up local file
+                sh "rm -f ${filePath}"
             }
-	} 
+        }
+    }
+}
+
     }
 }
