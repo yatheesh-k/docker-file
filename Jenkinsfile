@@ -33,11 +33,12 @@ pipeline {
             }
  
 }
-	   stage('Zip Dist Directory') {
+	   stage('Zip files') {
             steps {
-                sh '''
-                zip -r dist-${BUILD_ID}.zip dist
-                '''
+        
+		sh 'apt-get update && apt-get install -y zip'
+                sh 'zip -r dist-${BUILD_ID}.zip dist'
+        
             }
         }
 
@@ -75,7 +76,7 @@ pipeline {
                             contentType: 'APPLICATION_OCTETSTREAM',
                             consoleLogResponseBody: true,
                             url: "${env.NEXUS_URL}${file}",
-                            authentication: 'nexus',
+                            authentication: 'nexuslogin',
                             requestBody: readFile(file)
                         )
                         sh 'rm -rf dist-${BUILD_ID}.zip'
