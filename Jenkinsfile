@@ -26,13 +26,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build -t my-react-app .'
+                sh 'docker build -t app.'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker run -d --name my-app-container -p 80:80 my-react-app'
+                sh 'docker run -d --name my-app-container -p 80:80 app'
             }
         }
     }
