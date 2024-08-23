@@ -1,91 +1,35 @@
-pipeline {
-    agent any
+ Define variables
+REPO_URL=""
+BRANCH="main"
+IMAGE_NAME="my-react-app"
+CONTAINER_NAME="my-react-app-container"
+BUILD_DIR="/path/to/your/build/directory"
 
-    tools {
-        nodejs 'nodejs22'
-         }
-	 environment {
-        NEXUS_URL = 'http://52.206.80.91:8081/repository/reactappl/' // Base URL for Nexus
-        NEXUS_CREDENTIALS_ID = 'nexuslogin' // Jenkins credentials ID for Nexus
-    }
+# Step 1: Checkout the latest code from SCM
+echo "Cloning the repository..."
+if [ -d "$BUILD_DIR" ]; then
+  echo "Directory $BUILD_DIR already exists. Pulling the latest changes..."
+  cd "$BUILD_DIR"
+  git pull origin "$BRANCH"
+else
+  echo "Directory $BUILD_DIR does not exist. Cloning the repository..."
+  git clone "$REPO_URL" "$BUILD_DIR"
+  cd "$BUILD_DIR"
+fi
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch:'main',url:'https://github.com/lakshmipriyapbt/arzoo01.git'
-            }
-        }
+# Step 2: Build the Docker image
+echo "Building the Docker image..."
+docker build -t "$IMAGE_NAME" .
 
-        stage('Install Dependencies') {
-            steps {
-                
-                    sh 'npm install'
-                
-            }
-        }
+# Step 3: Remove old container if it exists
+echo "Removing old container if it exists..."
+if [ "$(docker ps -q -f name="$CONTAINER_NAME")" ]; then
+  docker stop "$CONTAINER_NAME"
+  docker rm "$CONTAINER_NAME"
+fi
 
-        stage('Build') {
-            steps {
-                
-                    sh 'npm run build'
-		    
-                
-            }
- 
-}
-	  
-           stage('Tar Files') {
-            steps {
-                sh 'tar -czvf dist-${BUILD_ID}.tar.gz dist'
-            }
-        }
-        
-	stage('SonarQube Analysis') {
-            environment {
-	        scannerHome = tool 'scanner' 
-                SONARQUBE = credentials('sonartoken') // Add SonarQube token as Jenkins credential
-            }
-	   
-            steps {
-                
-                    withSonarQubeEnv('sonarserver') {
-                    sh '''
-		    /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/scanner/bin/sonar-scanner \
-			  -Dsonar.projectKey=arzoo01 \
-			  -Dsonar.projectName=arzoo01 \
-			  -Dsonar.projectVersion=1.0 \
-			  -Dsonar.sources=src
-      
-			  '''
-		    }
-                
-                    }
-	}
-	
-       stage('Upload Artifacts to Nexus') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                    script {
-                            def file = "dist-${env.BUILD_ID}.tar.gz"
-			    def filePath = "${env.WORKSPACE}/${file}"
-                        // Upload the file using HTTP Request Plugin
-                        retry(3) { // Retry up to 3 times
-                            def response = httpRequest(
-                            httpMode: 'PUT',
-                            acceptType: 'APPLICATION_JSON',
-                            contentType: 'APPLICATION_OCTETSTREAM',
-                            consoleLogResponseBody: true,
-                            url: "${env.NEXUS_URL}${file}",
-                            authentication:"${NEXUS_CREDENTIALS_ID}",
-                            requestBody: readFile(filePath),
-			    timeout: 600
-                        )
-                           sh 'rm -rf dist-${BUILD_ID}.tar.gz'
-                    }
-                }
-            }
-	}
-       }
+# Step 4: Create and run the new container
+echo "Creating and running the new container..."
+docker run -d --name "$CONTAINER_NAME" -p 80:80 "$IMAGE_NAME"
 
-    }
-}
+echo "Process completed successfully."
