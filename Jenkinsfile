@@ -7,13 +7,7 @@ pipeline {
                 checkout scm
             }
         }
-     stages {
-        stage('Clone Repository') {
-            steps {
-                //git 'https://github.com/yatheesh-k/arzoo01.git'
-                git branch: 'main', url: 'https://github.com/yatheesh-k/java_sample.git'
-            }
-        }
+    
 
         stage('Cleanup') {
             steps {
