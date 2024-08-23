@@ -1,8 +1,8 @@
  Define variables
-REPO_URL=""
+REPO_URL="https://github.com/yatheesh-k/docker-file.git"
 BRANCH="main"
-IMAGE_NAME="my-react-app"
-CONTAINER_NAME="my-react-app-container"
+IMAGE_NAME="node"
+CONTAINER_NAME=""
 BUILD_DIR="/path/to/your/build/directory"
 
 # Step 1: Checkout the latest code from SCM
