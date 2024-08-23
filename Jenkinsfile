@@ -9,7 +9,7 @@ pipeline {
         }
     
 
-        stage('Cleanup') {
+        stages('Cleanup') {
             steps {
                 script {
                     echo 'Stopping and removing old containers...'
