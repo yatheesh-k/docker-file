@@ -18,7 +18,7 @@ pipeline {
                         sh "docker stop ${containers}"
                         sh "docker rm ${containers}"
                     } else {
-                        echo 'old containers to remove.'
+                        echo 'no old containers to remove.'
                     }
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build -t app.'
+                sh 'docker build -t app .'
             }
         }
 
